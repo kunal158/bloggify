@@ -1,3 +1,5 @@
+dotenv.config();
+
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
@@ -14,7 +16,6 @@ const postRoute = require("./routes/posts");
 connectDB();
 
 //middlewares
-dotenv.config();
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "/images")));
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
@@ -46,6 +47,13 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+  });
+}
 
 app.listen(process.env.PORT, () => {
   console.log("app is running on port " + process.env.PORT);
