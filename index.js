@@ -10,11 +10,12 @@ const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 
+dotenv.config();
+
 //database
 connectDB();
 
 //middlewares
-dotenv.config();
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "/images")));
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
