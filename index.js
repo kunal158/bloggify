@@ -17,12 +17,13 @@ connectDB();
 
 //middlewares
 app.use(express.json());
-app.use("/images", express.static(path.join(__dirname, "/images")));
+// app.use("/images", express.static(path.join(__dirname, "/images")));
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
+app.use(express.static("images"));
 
 //image upload
 const storage = multer.diskStorage({
@@ -48,12 +49,20 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   }
 });
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "build")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
-  });
-}
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname, "build")));
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "build", "index.html"));
+//   });
+// }
+
+app.get("/", async (req, res) => {
+  try {
+    res.status(200).json({ msg: "I am in home route" });
+  } catch (error) {
+    res.status(500).json({ msg: "Error in home route" });
+  }
+});
 
 app.listen(process.env.PORT, () => {
   console.log("app is running on port " + process.env.PORT);
