@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
+const protectedRoute = require("./routes/protectedRoute");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./db/db");
 const authRoute = require("./routes/auth");
@@ -58,12 +59,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   }
 });
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join(__dirname, "build")));
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, "build", "index.html"));
-//   });
-// }
+app.use("/api", protectedRoute); // Mount the protected route
 
 app.get("/", async (req, res) => {
   try {
