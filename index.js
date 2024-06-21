@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
-const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -18,22 +17,6 @@ connectDB();
 //middlewares
 app.use(express.json());
 // app.use("/images", express.static(path.join(__dirname, "/images")));
-const allowedOrigins = [
-  "http://localhost:5174",
-  "https://your-frontend-deployment-url.com",
-];
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
 
 app.use(cookieParser());
 app.use("/api/auth", authRoute);
