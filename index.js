@@ -20,10 +20,6 @@ app.use(express.json());
 // app.use("/images", express.static(path.join(__dirname, "/images")));
 
 app.use(cookieParser());
-app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
-app.use("/api/posts", postRoute);
-app.use(express.static("images"));
 
 app.use(cors({
     origin: 'http://localhost:5173',
@@ -32,6 +28,11 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/posts", postRoute);
+app.use(express.static("images"));
 
 //image upload
 const storage = multer.diskStorage({
