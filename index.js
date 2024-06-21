@@ -25,12 +25,13 @@ app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use(express.static("images"));
 
-const corsOrigin ={
-    origin:'http://localhost:5173', //or whatever port your frontend is using
-    credentials:true,            
-    optionSuccessStatus:200
-}
-app.use(cors(corsOrigin));
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 
 //image upload
 const storage = multer.diskStorage({
