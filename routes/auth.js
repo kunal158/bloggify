@@ -41,7 +41,14 @@ router.post("/login", async (req, res) => {
     );
 
     const { password, ...info } = user._doc;
-    res.cookie("token", token, { httpOnly: true }).status(200).json(info);
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true, // Set secure to true if your site is served over HTTPS
+        sameSite: "none", // SameSite attribute for cross-site cookies
+      })
+      .status(200)
+      .json(info);
   } catch (err) {
     console.error("Error during login:", err);
     res.status(500).json(err);

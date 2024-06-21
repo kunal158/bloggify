@@ -61,6 +61,15 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
 
 app.use("/api", protectedRoute); // Mount the protected route
 
+// Error handler middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.statusCode || 500).json({
+    error: {
+      message: err.message || "Internal Server Error",
+    },
+  });
+});
 app.get("/", async (req, res) => {
   try {
     res.status(200).json({ msg: "I am in home route" });
