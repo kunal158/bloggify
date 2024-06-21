@@ -3,6 +3,7 @@ const app = express();
 const dotenv = require("dotenv");
 const multer = require("multer");
 const path = require("path");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./db/db");
 const authRoute = require("./routes/auth");
@@ -23,6 +24,13 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use(express.static("images"));
+
+const corsOrigin ={
+    origin:'http://localhost:5174', //or whatever port your frontend is using
+    credentials:true,            
+    optionSuccessStatus:200
+}
+app.use(cors(corsOrigin));
 
 //image upload
 const storage = multer.diskStorage({
