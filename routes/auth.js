@@ -108,7 +108,10 @@ router.get("/refetch", async (req, res) => {
     if (!user) {
       return res.status(404).json("User not found!");
     }
-
+    res.setHeader(
+      "Access-Control-Allow-Origin",
+      "https://bloggify-ui--cyan.vercel.app"
+    ); // Set your frontend URL here
     res.status(200).json({
       username: user.username,
       email: user.email,
