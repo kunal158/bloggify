@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(express.json());
 // app.use("/images", express.static(path.join(__dirname, "/images")));
 const corsOptions = {
-  origin: ["https://bloggify-ui--cyan.vercel.app"], // Specify your frontend's URLs
+  origin: "https://bloggify-ui-7phws7qza-kunal-goswamis-projects.vercel.app", // Specify your frontend's URLs
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
   allowedHeaders: ["Content-Type", "Authorization"], // Add other headers as needed
