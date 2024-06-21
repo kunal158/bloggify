@@ -21,13 +21,42 @@ app.use(cookieParser());
 app.use(express.json());
 // app.use("/images", express.static(path.join(__dirname, "/images")));
 const corsOptions = {
-  origin: "https://bloggify-ui-335rx2bva-kunal-goswamis-projects.vercel.app/", // Specify your frontend's URLs
-  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-  optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
-  allowedHeaders: ["Content-Type", "Authorization"], // Add other headers as needed
+  origin: [
+    "http://localhost:5173",
+    "https://bloggify-ui-oqkdae79s-kunal-goswamis-projects.vercel.app",
+    "https://bloggify-ui-git-main-kunal-goswamis-projects.vercel.app",
+    "https://bloggify-ui--cyan.vercel.app",
+  ],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", corsOptions.origin);
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
+    return res.status(200).json({});
+  }
+
+  next();
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.statusCode || 500).json({
+    error: {
+      message: err.message || "Internal Server Error",
+    },
+  });
+});
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
@@ -62,14 +91,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
 app.use("/api", protectedRoute); // Mount the protected route
 
 // Error handler middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(err.statusCode || 500).json({
-    error: {
-      message: err.message || "Internal Server Error",
-    },
-  });
-});
+
 app.get("/", async (req, res) => {
   try {
     res.status(200).json({ msg: "I am in home route" });
