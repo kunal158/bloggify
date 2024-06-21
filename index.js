@@ -14,6 +14,7 @@ dotenv.config();
 
 //database
 connectDB();
+app.use(cookieParser());
 
 //middlewares
 app.use(express.json());
@@ -27,7 +28,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(cookieParser());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
