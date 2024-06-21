@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(express.json());
 // app.use("/images", express.static(path.join(__dirname, "/images")));
 const corsOptions = {
-  origin: "https://bloggify-ui-git-main-kunal-goswamis-projects.vercel.app",
+  origin: "https://bloggify-ui--cyan.vercel.app",
   credentials: true,
 };
 
