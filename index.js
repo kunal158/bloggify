@@ -18,28 +18,21 @@ connectDB();
 //middlewares
 app.use(express.json());
 // app.use("/images", express.static(path.join(__dirname, "/images")));
-const allowedOrigins = [
-  "http://localhost:5174",
-  "https://your-frontend-deployment-url.com",
-];
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: "http://localhost:5173", // Specify your frontend's URL
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
+  allowedHeaders: ["Content-Type", "Authorization"], // Add other headers as needed
+};
+
+app.use(cors(corsOptions));
 
 app.use(cookieParser());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
-app.use(express.static("images"));
+// app.use(express.static("images"));
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 //image upload
 const storage = multer.diskStorage({
