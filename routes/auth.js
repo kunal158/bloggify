@@ -55,7 +55,6 @@ router.post("/login", async (req, res) => {
     );
 
     const { password, ...info } = user._doc;
-<<<<<<< HEAD
     res
       .cookie("token", token, {
         httpOnly: true,
@@ -64,18 +63,6 @@ router.post("/login", async (req, res) => {
       })
       .status(200)
       .json(info);
-=======
-
-    // Determine cookie options based on whether the connection is secure (HTTPS)
-    const cookieOptions = {
-      httpOnly: true,
-      sameSite: "strict",
-      path: "/",
-      secure: isSecure(req), // Set secure to true if connection is secure (HTTPS)
-    };
-
-    res.cookie("token", token, cookieOptions).status(200).json(info);
->>>>>>> 0f9979c8c5c8f2d1e2ec2785a08e74fc1c71d74b
   } catch (err) {
     console.error("Error during login:", err);
     res.status(500).json(err);
@@ -93,7 +80,10 @@ router.get("/logout", async (req, res) => {
       expires: new Date(0), // Expire the cookie immediately
     };
 
-    res.clearCookie("token", cookieOptions).status(200).send("User logged out successfully!");
+    res
+      .clearCookie("token", cookieOptions)
+      .status(200)
+      .send("User logged out successfully!");
   } catch (err) {
     console.error("Error during logout:", err);
     res.status(500).json(err);
