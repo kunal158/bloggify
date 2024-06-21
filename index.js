@@ -1,9 +1,9 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
-const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./db/db");
 const authRoute = require("./routes/auth");
@@ -18,6 +18,7 @@ connectDB();
 //middlewares
 app.use(express.json());
 // app.use("/images", express.static(path.join(__dirname, "/images")));
+<<<<<<< HEAD
 const corsOptions = {
   origin: "http://localhost:5173", // Specify your frontend's URL
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
@@ -26,8 +27,19 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+=======
+>>>>>>> 2f55c2b8bb0eea38f22ef3c242794681aeba6eff
 
 app.use(cookieParser());
+
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
@@ -70,6 +82,14 @@ app.get("/", async (req, res) => {
     res.status(200).json({ msg: "I am in home route" });
   } catch (error) {
     res.status(500).json({ msg: "Error in home route" });
+  }
+});
+
+app.get("/api/auth/login", async (req, res) => {
+  try {
+    res.status(200).json({ msg: "I am in login route" });
+  } catch (error) {
+    res.status(500).json({ msg: "Error in login route" });
   }
 });
 
