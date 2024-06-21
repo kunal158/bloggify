@@ -3,13 +3,13 @@ const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const Post = require("../models/Post");
-const verifyToken = require("../verifyToken");
+const verifytoken = require("../verifytoken");
 const mongoose = require("mongoose");
 
 // Ensure static routes are defined before dynamic routes
 
 //CREATE
-router.post("/create", verifyToken, async (req, res) => {
+router.post("/create", verifytoken, async (req, res) => {
   try {
     const newPost = new Post(req.body);
     const savedPost = await newPost.save();
@@ -47,7 +47,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //UPDATE
-router.put("/:id", verifyToken, async (req, res) => {
+router.put("/:id", verifytoken, async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ error: "Invalid post ID" });
   }
@@ -65,7 +65,7 @@ router.put("/:id", verifyToken, async (req, res) => {
 });
 
 //DELETE
-router.delete("/:id", verifyToken, async (req, res) => {
+router.delete("/:id", verifytoken, async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ error: "Invalid post ID" });
   }
